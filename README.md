@@ -15,13 +15,6 @@ package;
 
 import haxe.Constraints;
 
-@:build( uhx.macro.Operator.build() )
-class Main {
-	
-	package;
-
-import haxe.Constraints;
-
 /**
  * ...
  * @author Skial Bainn
