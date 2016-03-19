@@ -10,14 +10,15 @@ import haxe.Constraints;
 class Main {
 	
 	static function main() {
-		var arr = [1, 2, 3, 4];
 		var total = sum(_ * _, [1, 2, 3, 4]);
 		var joined = sum(_ + _, ['hello', ' ', 'world'] );
+		var abstractJoined = sum(_ + _, (['hello', ' ', 'world']:Array<StringOp>) );
 		
-		trace( total, joined );
+		trace( total, joined, abstractJoined );
 	}
 	
-	@:generic public static function sum<T>(op:Function, array:Array<T>):T {
+	@:generic
+	public static function sum<T>(op:Function, array:Array<T>):T {
 		var result = array[0];
 		for (i in 1...array.length) {
 			trace( result );
@@ -40,7 +41,11 @@ class Main {
 abstract StringOp(String) from String to String {
 	public inline function new(v) this = v;
 	
-	@:op(A + B) public static function add(a:StringOp, b:StringOp):String;
+	@:op(A + B) public static function add(a:StringOp, b:StringOp):String {
+		var _b = (b:String).split('');
+		_b.reverse();
+		return (a:String) + _b.join('');
+	}
 	
 	@:op(A - B) public static function sub(a:StringOp, b:StringOp) {
 		return b;
